@@ -19,6 +19,7 @@ const LoginPage = () => {
 
       // Stocker le token JWT dans le localStorage
       localStorage.setItem('token', response.data.jwt);
+      localStorage.setItem('userId', response.data.user.id)
 
       // Effectuer une requête supplémentaire pour récupérer les détails de l'utilisateur
       const userResponse = await axios.get(`http://localhost:1337/api/users/${response.data.user.id}?populate=role`, {

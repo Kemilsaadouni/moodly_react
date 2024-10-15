@@ -8,6 +8,7 @@ import en_colere from '../assets/en_colere.svg';
 
 const EmployeeMood = () => {
   const [selectedMood, setSelectedMood] = useState(null);
+  const [moodSubmitted, setMoodSubmitted] = useState(false); // Nouvel état pour vérifier si le mood a été soumis
   const moods = [
     { value: 'Très heureux', image: tres_heureux },
     { value: 'Heureux', image: heureux },
@@ -21,6 +22,7 @@ const EmployeeMood = () => {
   const handleMoodSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
     const todayISO = new Date().toISOString().slice(0, 10); // Format ISO pour l'envoi
 
     try {
@@ -28,13 +30,15 @@ const EmployeeMood = () => {
         data: {
           Humeur: selectedMood,
           Date: todayISO,
+          users_permissions_user: userId,
         },
       }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      alert('Mood enregistré avec succès');
+      // Afficher le message de succès et cacher le formulaire
+      setMoodSubmitted(true);
     } catch (err) {
       console.error('Erreur lors de l\'envoi du mood', err);
     }
@@ -43,26 +47,47 @@ const EmployeeMood = () => {
   return (
     <div style={styles.container}>
       <h2 style={styles.date}>{today}</h2>
-      <div style={styles.box}>
-        <p style={styles.question}>Comment s'est passée ta journée ?</p>
-        <div style={styles.moodSelection}>
-          {moods.map((mood) => (
-            <img
-              key={mood.value}
-              src={mood.image}  // Utilise les images importées
-              alt={mood.value}
-              style={{
-                ...styles.moodImage,
-                border: selectedMood === mood.value ? '3px solid blue' : 'none',
-              }}
-              onClick={() => setSelectedMood(mood.value)}
-            />
-          ))}
+      <style>
+        {`
+          @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+          }
+
+          .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+          }
+        `}
+      </style>
+      {!moodSubmitted ? (  // Si le mood n'est pas soumis, afficher le formulaire
+        <>
+          <div style={styles.box}>
+            <p style={styles.question}>Comment s'est passée ta journée ?</p>
+            <div style={styles.moodSelection}>
+              {moods.map((mood) => (
+                <img
+                  key={mood.value}
+                  src={mood.image}  // Utilise les images importées
+                  alt={mood.value}
+                  style={{
+                    ...styles.moodImage,
+                    border: selectedMood === mood.value ? '3px solid blue' : 'none',
+                  }}
+                  onClick={() => setSelectedMood(mood.value)}
+                />
+              ))}
+            </div>
+          </div>
+          <button style={styles.submitButton} onClick={handleMoodSubmit} disabled={selectedMood === null}>
+            Enregistrer
+          </button>
+        </>
+      ) : (  // Sinon, afficher le message de remerciement avec une petite animation
+        <div className="fade-in" style={styles.thankYouBox}>
+          <h2 style={styles.thankYouMessage}>Merci d'avoir partagé votre mood !</h2>
+          <p style={styles.thankYouText}>Revenez demain pour enregistrer votre humeur.</p>
         </div>
-      </div>
-      <button style={styles.submitButton} onClick={handleMoodSubmit} disabled={selectedMood === null}>
-        Enregistrer
-      </button>
+      )}
     </div>
   );
 };
@@ -91,6 +116,8 @@ const styles = {
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
     width: '100%',
     maxWidth: '400px',
+    opacity: 1,
+    transition: 'opacity 0.3s ease-out',
   },
   question: {
     marginBottom: '20px',
@@ -116,6 +143,25 @@ const styles = {
     cursor: 'pointer',
     textTransform: 'uppercase',
     fontSize: '14px',
+  },
+  // Styles pour le message de remerciement
+  thankYouBox: {
+    backgroundColor: '#fff',
+    padding: '20px',
+    borderRadius: '15px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    width: '100%',
+    maxWidth: '400px',
+    opacity: 1,  // Cette opacité changera grâce à l'animation
+  },
+  thankYouMessage: {
+    fontSize: '20px',
+    fontWeight: 'bold',
+    marginBottom: '10px',
+  },
+  thankYouText: {
+    fontSize: '16px',
+    color: '#333',
   },
 };
 
