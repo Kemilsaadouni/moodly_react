@@ -1,9 +1,122 @@
-import React from 'react'
+import React, { useState } from 'react';
+import axios from 'axios';
+import tres_heureux from '../assets/tres_heureux.svg';
+import heureux from '../assets/heureux.svg';
+import neutre from '../assets/neutre.svg';
+import triste from '../assets/triste.svg';
+import en_colere from '../assets/en_colere.svg';
 
 const EmployeeMood = () => {
-  return (
-    <div>EmployeeMood</div>
-  )
-}
+  const [selectedMood, setSelectedMood] = useState(null);
+  const moods = [
+    { value: 'Très heureux', image: tres_heureux },
+    { value: 'Heureux', image: heureux },
+    { value: 'Neutre', image: neutre },
+    { value: 'Triste', image: triste },
+    { value: 'En colère', image: en_colere },
+  ];
 
-export default EmployeeMood
+  const today = new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+  const handleMoodSubmit = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    const todayISO = new Date().toISOString().slice(0, 10); // Format ISO pour l'envoi
+
+    try {
+      await axios.post('http://localhost:1337/api/moods', {
+        data: {
+          Humeur: selectedMood,
+          Date: todayISO,
+        },
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      alert('Mood enregistré avec succès');
+    } catch (err) {
+      console.error('Erreur lors de l\'envoi du mood', err);
+    }
+  };
+
+  return (
+    <div style={styles.container}>
+      <h2 style={styles.date}>{today}</h2>
+      <div style={styles.box}>
+        <p style={styles.question}>Comment s'est passée ta journée ?</p>
+        <div style={styles.moodSelection}>
+          {moods.map((mood) => (
+            <img
+              key={mood.value}
+              src={mood.image}  // Utilise les images importées
+              alt={mood.value}
+              style={{
+                ...styles.moodImage,
+                border: selectedMood === mood.value ? '3px solid blue' : 'none',
+              }}
+              onClick={() => setSelectedMood(mood.value)}
+            />
+          ))}
+        </div>
+      </div>
+      <button style={styles.submitButton} onClick={handleMoodSubmit} disabled={selectedMood === null}>
+        Enregistrer
+      </button>
+    </div>
+  );
+};
+
+const styles = {
+  container: {
+    textAlign: 'center',
+    padding: '20px',
+    fontFamily: "'Arial', sans-serif",
+    backgroundColor: '#E4EBE4',
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  date: {
+    fontSize: '18px',
+    color: '#000',
+    marginBottom: '20px',
+  },
+  box: {
+    backgroundColor: '#fff',
+    padding: '20px',
+    borderRadius: '15px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    width: '100%',
+    maxWidth: '400px',
+  },
+  question: {
+    marginBottom: '20px',
+    fontSize: '16px',
+    color: '#333',
+  },
+  moodSelection: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    marginBottom: '20px',
+  },
+  moodImage: {
+    width: '50px',
+    height: '50px',
+    cursor: 'pointer',
+  },
+  submitButton: {
+    padding: '10px 20px',
+    backgroundColor: '#000',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '25px',
+    cursor: 'pointer',
+    textTransform: 'uppercase',
+    fontSize: '14px',
+  },
+};
+
+export default EmployeeMood;
