@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage';
 import ManagerDashboard from './pages/ManagerDashboard'; // à créer
 import EmployeeMood from './pages/EmployeeMood'; // à créer
 import Header from './components/Header'
+import ThankYou from './components/ThankYou';
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Route path="/manager-dashboard" element={<ManagerDashboard />} />
         <Route path="/employee-mood" element={<EmployeeMood />} />
         <Route path="/header" element={<Header />} />
+        <Route path="/thankyou" element={<ThankYou/>} />
       </Routes>
     </Router>
   );

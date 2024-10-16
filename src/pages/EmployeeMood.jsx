@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import ThankYou from '../components/ThankYou'
 import tres_heureux from '../assets/tres_heureux.svg';
 import heureux from '../assets/heureux.svg';
 import neutre from '../assets/neutre.svg';
@@ -83,10 +84,7 @@ const EmployeeMood = () => {
           </button>
         </>
       ) : (  // Sinon, afficher le message de remerciement avec une petite animation
-        <div className="fade-in" style={styles.thankYouBox}>
-          <h2 style={styles.thankYouMessage}>Merci d'avoir partagé votre mood !</h2>
-          <p style={styles.thankYouText}>Revenez demain pour enregistrer votre humeur.</p>
-        </div>
+        <ThankYou/>
       )}
     </div>
   );
@@ -143,25 +141,6 @@ const styles = {
     cursor: 'pointer',
     textTransform: 'uppercase',
     fontSize: '14px',
-  },
-  // Styles pour le message de remerciement
-  thankYouBox: {
-    backgroundColor: '#fff',
-    padding: '20px',
-    borderRadius: '15px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    width: '100%',
-    maxWidth: '400px',
-    opacity: 1,  // Cette opacité changera grâce à l'animation
-  },
-  thankYouMessage: {
-    fontSize: '20px',
-    fontWeight: 'bold',
-    marginBottom: '10px',
-  },
-  thankYouText: {
-    fontSize: '16px',
-    color: '#333',
   },
 };
 
