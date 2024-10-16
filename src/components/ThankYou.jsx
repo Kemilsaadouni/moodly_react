@@ -1,13 +1,13 @@
 import React from 'react'
 
-const ThankYou = () => {
-  return (
-    <div className="fade-in" style={styles.thankYouBox}>
-        <h2 style={styles.thankYouMessage}>Merci d'avoir partagé votre mood !</h2>
-        <p style={styles.thankYouText}>Revenez demain pour enregistrer votre humeur.</p>
-    </div>
-  )
-}
+const ThankYou = ({ message, subMessage }) => {
+    return (
+      <div className="fade-in" style={styles.thankYouBox}>
+        <h2 style={styles.thankYouMessage}>{message}</h2>
+        <p style={styles.thankYouText}>{subMessage}</p>
+      </div>
+    );
+};
 
 const styles = {
     // Styles pour le message de remerciement

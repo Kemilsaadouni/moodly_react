@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ThankYou from '../components/ThankYou'
+import ThankYou from '../components/ThankYou';
 import tres_heureux from '../assets/tres_heureux.svg';
 import heureux from '../assets/heureux.svg';
 import neutre from '../assets/neutre.svg';
@@ -10,6 +10,8 @@ import en_colere from '../assets/en_colere.svg';
 const EmployeeMood = () => {
   const [selectedMood, setSelectedMood] = useState(null);
   const [moodSubmitted, setMoodSubmitted] = useState(false); // Nouvel état pour vérifier si le mood a été soumis
+  const [loading, setLoading] = useState(true);  // Pour gérer le chargement
+  const [alreadySubmitted, setAlreadySubmitted] = useState(false);  // Nouvel état pour vérifier si l'utilisateur a déjà soumis
   const moods = [
     { value: 'Très heureux', image: tres_heureux },
     { value: 'Heureux', image: heureux },
@@ -19,12 +21,41 @@ const EmployeeMood = () => {
   ];
 
   const today = new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  const todayISO = new Date().toISOString().slice(0, 10); // Format ISO pour comparer la date
+
+  // Fonction pour vérifier si l'utilisateur a déjà soumis un mood aujourd'hui
+  const checkIfMoodExists = async () => {
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+    
+    try {
+      const response = await axios.get(`http://localhost:1337/api/moods?filters[users_permissions_user][id][$eq]=${userId}&filters[Date][$eq]=${todayISO}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // Si un mood existe déjà pour aujourd'hui
+      if (response.data.data.length > 0) {
+        setMoodSubmitted(true);
+        setAlreadySubmitted(true);  // Mettre à jour l'état pour savoir que l'utilisateur a déjà soumis
+      }
+    } catch (err) {
+      console.error('Erreur lors de la vérification du mood', err);
+    } finally {
+      setLoading(false); // Arrête le chargement après la vérification
+    }
+  };
+
+  useEffect(() => {
+    // Vérifier si un mood existe déjà pour aujourd'hui lors du chargement du composant
+    checkIfMoodExists();
+  }, []);
 
   const handleMoodSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
-    const todayISO = new Date().toISOString().slice(0, 10); // Format ISO pour l'envoi
 
     try {
       await axios.post('http://localhost:1337/api/moods', {
@@ -44,6 +75,10 @@ const EmployeeMood = () => {
       console.error('Erreur lors de l\'envoi du mood', err);
     }
   };
+
+  if (loading) {
+    return <div>Chargement...</div>;  // Afficher un message de chargement pendant la vérification
+  }
 
   return (
     <div style={styles.container}>
@@ -83,8 +118,11 @@ const EmployeeMood = () => {
             Enregistrer
           </button>
         </>
-      ) : (  // Sinon, afficher le message de remerciement avec une petite animation
-        <ThankYou/>
+      ) : (  // Sinon, afficher des messages différents en fonction de la situation
+        <ThankYou 
+          message={alreadySubmitted ? "Vous avez déjà partagé votre mood aujourd'hui !" : "Merci d'avoir partagé votre mood !"} 
+          subMessage={alreadySubmitted ? "Revenez demain pour enregistrer un nouveau mood." : "Revenez demain pour enregistrer votre humeur."} 
+        />
       )}
     </div>
   );
