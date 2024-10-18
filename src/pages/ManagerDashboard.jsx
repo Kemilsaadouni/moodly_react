@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+/* import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Chart from 'chart.js/auto';
 
@@ -151,6 +151,72 @@ const ManagerDashboard = () => {
     <div>
       <h2>Dashboard Manager - Visualisation des Moods</h2>
       <canvas id="moodChart" width="400" height="200"></canvas>
+    </div>
+  );
+};
+
+export default ManagerDashboard;
+*/
+
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Line } from 'react-chartjs-2';
+
+const ManagerDashboard = () => {
+  const [moods, setMoods] = useState([]);  // État pour stocker les moods
+  const [error, setError] = useState(null); // État pour gérer les erreurs
+  const API_URL = 'http://localhost:1337/api/moods';
+  const token = localStorage.getItem('token');  // Récupère le token du localStorage
+
+  // Fonction pour récupérer les moods avec pagination
+  const fetchMoods = async () => {
+    let allMoods = []; // Tableau pour stocker tous les moods
+    let page = 1;      // Commence à la première page
+    let pageSize = 100; // Taille de chaque page
+    let totalPages = 1; // Nombre total de pages
+
+    try {
+      // Première requête pour récupérer la première page et les infos de pagination
+      const response = await axios.get(`${API_URL}?pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort=Date:asc`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      
+      const { data, meta } = response.data;
+
+      allMoods = data; // Ajoute les moods récupérés à allMoods
+      totalPages = meta.pagination.pageCount; // Récupère le nombre total de pages
+      console.log(`Total de pages: ${totalPages}`);
+
+      // Boucle pour récupérer toutes les pages suivantes s'il y en a
+      for (let i = 2; i <= totalPages; i++) {
+        const paginatedResponse = await axios.get(`${API_URL}?pagination[page]=${i}&pagination[pageSize]=${pageSize}&sort=Date:asc`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        allMoods = [...allMoods, ...paginatedResponse.data.data]; // Ajoute les moods à la liste
+      }
+
+      // Stocke tous les moods dans l'état
+      setMoods(allMoods);
+      console.log('Tous les moods récupérés:', allMoods);
+    } catch (err) {
+      setError('Erreur lors de la récupération des moods');
+      console.error(err);
+    }
+  };
+
+  // Utilisation de useEffect pour récupérer les moods au montage du composant
+  useEffect(() => {
+    fetchMoods();
+  }, []);  // Le tableau vide signifie que useEffect sera exécuté une seule fois au montage
+
+  return (
+    <div>
+      <h1>ManagerDashboard</h1>
+      {error && <p style={{ color: 'red' }}>{error}</p>} {/* Affiche l'erreur s'il y en a */}
     </div>
   );
 };
