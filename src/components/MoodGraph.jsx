@@ -58,6 +58,11 @@ const MoodGraph = ({ dailyAverages }) => {
 
   const options = {
     maintainAspectRatio: false,  // Désactiver l'aspect ratio pour permettre au graphique de s'étendre
+    layout: {
+      padding: {
+        bottom: 50,  // Ajouter du padding en bas du graphique
+      },
+    },
     scales: {
       x: {
         ticks: {
