@@ -95,7 +95,7 @@ const ManagerDashboard = () => {
 
   return (
     <div style={styles.container}>
-      <h1>ManagerDashboard</h1>
+      <h1>Mood</h1>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <MoodGraph dailyAverages={dailyAverages} /> {/* Graphique séparé */}
     </div>

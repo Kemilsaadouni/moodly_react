@@ -37,13 +37,37 @@ const MoodGraph = ({ dailyAverages }) => {
       },
     ],
   };
+
+  const options = {
+    scales: {
+      x: {
+        ticks: {
+          // Réduire la taille des étiquettes sur petits écrans
+          font: {
+            size: window.innerWidth < 768 ? 10 : 12, // 10px pour petits écrans, 12px pour grands
+          },
+          callback: function(value, index, values) {
+            return new Date(value).toLocaleDateString('fr-FR', {
+              day: 'numeric',
+              month: 'short'
+            });
+          }
+        }
+      },
+      y: {
+        beginAtZero: true,
+        min: 2.0,
+      }
+    }
+  };
+  
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding: '20px' }}>
-        <div style={{ width: '100%', maxWidth: '900px', height: '400px' }}>
-          <h2>Moyenne du moral des employés lors des 7 derniers jours</h2>
-          <Line data={data} />
-        </div>
+  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding: '20px' }}>
+    <div style={{ width: '100%', maxWidth: '900px', height: window.innerWidth < 768 ? '300px' : '400px' }}>
+      <h2 style={{ marginBottom: '20px' }}>Moyenne du moral des employés lors des 7 derniers jours</h2>
+      <Line data={data} options={options} />
     </div>
+  </div>
   );
 };
 
