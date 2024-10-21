@@ -84,7 +84,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
-    backgroundColor: '#E4EBE4',
+    backgroundColor: '#E7EDED',
     fontFamily: "'Arial', sans-serif",
   },
   heading: {

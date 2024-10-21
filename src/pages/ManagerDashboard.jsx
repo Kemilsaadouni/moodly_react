@@ -68,7 +68,7 @@ const ManagerDashboard = () => {
       const calculateDailyAverages = (moodsByDate) => {
         const sortedDates = Object.keys(moodsByDate).sort((a, b) => new Date(a) - new Date(b)); // Trier les dates par ordre croissant
       
-        const lastNDays = sortedDates.slice(-10);  // Remplacer 10 par 7 pour afficher les 7 derniers jours
+        const lastNDays = sortedDates.slice(-7);  // Remplacer 10 par 7 pour afficher les 7 derniers jours
       
         return lastNDays.map((date) => {
           const moodsForDate = moodsByDate[date];
@@ -107,7 +107,7 @@ const styles = {
     textAlign: 'center',
     padding: '20px',
     fontFamily: "'Arial', sans-serif",
-    backgroundColor: '#E4EBE4',
+    backgroundColor: '#E7EDED',
     height: '100vh',
     display: 'flex',
     flexDirection: 'column',

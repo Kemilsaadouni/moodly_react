@@ -39,8 +39,8 @@ const MoodGraph = ({ dailyAverages }) => {
   };
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding: '20px' }}>
-        <div style={{ width: '80%', maxWidth: '900px', height: '400px' }}>
-          <h2>Moyenne du moral des employés lors des 10 derniers jours</h2>
+        <div style={{ width: '100%', maxWidth: '900px', height: '400px' }}>
+          <h2>Moyenne du moral des employés lors des 7 derniers jours</h2>
           <Line data={data} />
         </div>
     </div>
