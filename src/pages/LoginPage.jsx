@@ -11,28 +11,22 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      // Envoyer la requête POST à Strapi pour authentifier l'utilisateur
       const response = await axios.post('http://localhost:1337/api/auth/local', {
         identifier: email,
         password: password,
       });
 
-      // Stocker le token JWT dans le localStorage
       localStorage.setItem('token', response.data.jwt);
-      localStorage.setItem('userId', response.data.user.id)
+      localStorage.setItem('userId', response.data.user.id);
 
-      // Effectuer une requête supplémentaire pour récupérer les détails de l'utilisateur
       const userResponse = await axios.get(`http://localhost:1337/api/users/${response.data.user.id}?populate=role`, {
         headers: {
           Authorization: `Bearer ${response.data.jwt}`,
         },
       });
 
-      // Récupérer le rôle de l'utilisateur
       const userRole = userResponse.data.role.name;
-      console.log('User role:', userRole);
 
-      // Rediriger l'utilisateur en fonction de son rôle
       if (userRole === 'manager') {
         navigate('/manager-dashboard');
       } else if (userRole === 'employee') {
@@ -42,8 +36,54 @@ const LoginPage = () => {
       }
     } catch (err) {
       setError('Email ou mot de passe incorrect');
-      console.error('Erreur de connexion :', err);
     }
+  };
+
+  const styles = {
+    container: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100vh',
+      backgroundColor: '#E4EBE4',
+      fontFamily: 'Arial, sans-serif',
+      padding: '20px',
+    },
+    heading: {
+      fontSize: '2rem',
+      marginBottom: '1rem',
+    },
+    error: {
+      color: 'red',
+      fontSize: '0.9rem',
+      marginBottom: '1rem',
+    },
+    form: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '1rem',
+    },
+    inputGroup: {
+      width: '100%',
+    },
+    input: {
+      width: '100%',
+      padding: '10px',
+      border: '1px solid #ccc',
+      borderRadius: '20px',
+      fontSize: '1rem',
+    },
+    button: {
+      padding: '10px',
+      backgroundColor: '#000',
+      color: '#fff',
+      border: 'none',
+      borderRadius: '20px',
+      cursor: 'pointer',
+      fontSize: '1rem',
+      textTransform: 'uppercase',
+    },
   };
 
   return (
@@ -55,82 +95,26 @@ const LoginPage = () => {
           <input
             style={styles.input}
             type="email"
-            placeholder="jane@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
+            placeholder="jane@example.com"
           />
         </div>
         <div style={styles.inputGroup}>
           <input
             style={styles.input}
             type="password"
-            placeholder="••••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
+            placeholder="Mot de passe"
           />
         </div>
-        <button type="submit" style={styles.button}>LOG IN</button>
+        <button type="submit" style={styles.button}>
+          Log in
+        </button>
       </form>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
-    backgroundColor: '#E7EDED',
-    fontFamily: "'Arial', sans-serif",
-  },
-  heading: {
-    marginBottom: '20px',
-    fontSize: '24px',
-    fontWeight: 'bold',
-    color: '#000',
-  },
-  error: {
-    color: 'red',
-    marginBottom: '10px',
-  },
-  form: {
-    width: '80%',
-    maxWidth: '400px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  inputGroup: {
-    marginBottom: '15px',
-    width: '100%',
-  },
-  input: {
-    width: '100%',
-    padding: '12px',
-    borderRadius: '25px',
-    border: '1px solid #ccc',
-    fontSize: '16px',
-    outline: 'none',
-    boxSizing: 'border-box',
-    fontFamily: "'Arial', sans-serif",
-  },
-  button: {
-    width: '100%',
-    padding: '12px',
-    borderRadius: '25px',
-    backgroundColor: '#000',
-    color: '#fff',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    border: 'none',
-    textTransform: 'uppercase',
-    fontFamily: "'Arial', sans-serif",
-  },
 };
 
 export default LoginPage;
