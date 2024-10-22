@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import MoodGraph from '../components/MoodGraph';  // Importer le composant graphique
+import MoodGraph from '../components/MoodGraph';
+import LogoutButton from '../components/LogoutButton';
 
 const ManagerDashboard = () => {
-  const [moods, setMoods] = useState([]); 
+  const [moods, setMoods] = useState([]);
   const [dailyAverages, setDailyAverages] = useState([]);
-  const [error, setError] = useState(null); 
+  const [error, setError] = useState(null);
   const API_URL = 'http://localhost:1337/api/moods';
   const token = localStorage.getItem('token');
 
@@ -54,22 +55,11 @@ const ManagerDashboard = () => {
         return acc;
       }, {});
 
-      /* Return l'eensemble des dates de leur moyennes
-      const calculateDailyAverages = (moodsByDate) => {
-        return Object.keys(moodsByDate).map((date) => {
-          const moodsForDate = moodsByDate[date];
-          const total = moodsForDate.reduce((sum, mood) => {
-            return sum + humeurValues[mood.Humeur];
-          }, 0);
-          const average = total / moodsForDate.length;
-          return { date, average };
-        });
-      };*/
       const calculateDailyAverages = (moodsByDate) => {
         const sortedDates = Object.keys(moodsByDate).sort((a, b) => new Date(a) - new Date(b)); // Trier les dates par ordre croissant
-      
-        const lastNDays = sortedDates.slice(-7);  // Remplacer 10 par 7 pour afficher les 7 derniers jours
-      
+
+        const lastNDays = sortedDates.slice(-7);
+
         return lastNDays.map((date) => {
           const moodsForDate = moodsByDate[date];
           const total = moodsForDate.reduce((sum, mood) => {
@@ -95,7 +85,10 @@ const ManagerDashboard = () => {
 
   return (
     <div style={styles.container}>
-      <h1>Mood</h1>
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 20px' }}>
+        <h1>Moodly</h1>
+        <LogoutButton />
+      </div>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <MoodGraph dailyAverages={dailyAverages} /> {/* Graphique séparé */}
     </div>

@@ -88,7 +88,7 @@ const MoodGraph = ({ dailyAverages }) => {
         <h3 style={{ marginBottom: '10px' }}>Moyenne du moral des employés lors des 7 derniers jours</h3>
         <Line ref={chartRef} data={data} options={options} />
         <div style={{backgroundColor: '#fff', borderRadius: '15px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', padding:20}}>
-          <div style={{ display: 'inline-block', width: '300px', height: '10px', background: 'linear-gradient(to right, blue, yellow, red)'}}></div>
+          <div style={{ display: 'inline-block', width: '100%', height: '10px', background: 'linear-gradient(to right, blue, yellow, red)'}}></div>
           <div style={{ display: 'flex', justifyContent: 'space-between', margin: '5px auto' }}>
             <h5>En colère</h5>
             <h5>Neutre</h5>
