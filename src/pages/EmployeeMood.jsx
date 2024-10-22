@@ -137,7 +137,6 @@ const styles = {
     textAlign: 'center',
     padding: '20px',
     fontFamily: "'Arial', sans-serif",
-    backgroundColor: '#E7EDED',
     height: '100vh',
     display: 'flex',
     flexDirection: 'column',

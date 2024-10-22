@@ -6,9 +6,9 @@
 }
 
 html {
-  height: 100dvh;
-  width: 100dvw;
-  background-color: '#E4EBE4';
+  height: 100%;
+  width: 100%;
+  background-color: #E4EBE4;
 }
 
 body {
@@ -19,4 +19,11 @@ body {
 #root {
   height: 100%;
   width: 100%;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+  /* D'autres styles pour mobile */
 }

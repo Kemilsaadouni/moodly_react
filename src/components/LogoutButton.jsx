@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logout from '../assets/logout.svg';
-import logoutHover from '../assets/logout_hover.svg';
 
 const LogoutButton = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -18,22 +17,20 @@ const LogoutButton = () => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
-        border: 'none',
-        cursor: 'pointer',
-        width: '50px',  // Taille fixe pour éviter que la div affecte la taille du bouton
+        border: "none",
+        backgroundColor: isHovered ? 'rgba(0, 0, 0, 0.1)' : 'transparent',
+        width: '50px',
         height: '50px',
-        padding: '5px',  // Ajouter du padding si nécessaire
-        backgroundColor: isHovered ? '#000' : 'transparent',
-        transition: 'background-color 0.3s ease, transform 0.3s ease',
-        borderRadius: '5px',
+        padding: '5px',
+        cursor: 'pointer',
       }}
     >
       <img
-        src={isHovered ? logoutHover : logout}
+        src={logout}
         alt="Déconnexion"
         style={{
-          width: '70%',  // Taille de l'image fixée à 100% du bouton
-          height: '70%',
+          width: '100%',  // Ajustement à 100% du bouton
+          height: '100%', // Ajustement à 100% du bouton
         }}
       />
     </button>

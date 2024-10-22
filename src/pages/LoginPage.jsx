@@ -46,7 +46,6 @@ const LoginPage = () => {
       justifyContent: 'center',
       alignItems: 'center',
       height: '100vh',
-      backgroundColor: '#E4EBE4',
       fontFamily: 'Arial, sans-serif',
       padding: '20px',
     },
