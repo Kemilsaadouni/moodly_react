@@ -6,6 +6,7 @@ import heureux from '../assets/heureux.svg';
 import neutre from '../assets/neutre.svg';
 import triste from '../assets/triste.svg';
 import en_colere from '../assets/en_colere.svg';
+import LogoutButton from '../components/LogoutButton';
 
 const EmployeeMood = () => {
   const [selectedMood, setSelectedMood] = useState(null);
@@ -82,6 +83,9 @@ const EmployeeMood = () => {
 
   return (
     <div style={styles.container}>
+      <div style={styles.logoutContainer}>
+        <LogoutButton />
+      </div>
       <h2 style={styles.date}>{today}</h2>
       <style>
         {`
@@ -139,6 +143,13 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'relative'
+  },
+  logoutContainer: {
+    width: '10%',
+    position: 'absolute', // Permet de positionner le bouton en haut à droite
+    top: '20px',
+    right: '20px', // Garde un peu d'espace depuis le bord droit
   },
   date: {
     fontSize: '18px',

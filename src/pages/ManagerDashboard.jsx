@@ -86,7 +86,7 @@ const ManagerDashboard = () => {
   return (
     <div style={styles.container}>
       <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 20px' }}>
-        <h1>Moodly</h1>
+        <h1>Manager</h1>
         <LogoutButton />
       </div>
       {error && <p style={{ color: 'red' }}>{error}</p>}

@@ -42,7 +42,7 @@ const MoodGraph = ({ dailyAverages }) => {
         label: 'Moyenne du moral',
         data: dailyAverages.map(item => item.average),
         fill: true,
-        borderColor: 'rgba(75, 192, 192, 1)',
+        borderColor: 'black',
         backgroundColor: (context) => {
           const chart = chartRef.current;
           if (!chart) return 'rgba(75, 192, 192, 1)';
@@ -88,7 +88,7 @@ const MoodGraph = ({ dailyAverages }) => {
         <h3 style={{ marginBottom: '10px' }}>Moyenne du moral des employés lors des 7 derniers jours</h3>
         <Line ref={chartRef} data={data} options={options} />
         <div style={{backgroundColor: '#fff', borderRadius: '15px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', padding:20}}>
-          <div style={{ display: 'inline-block', width: '100%', height: '10px', background: 'linear-gradient(to right, blue, yellow, red)'}}></div>
+          <div style={{ display: 'inline-block', width: '100%', height: '10px', background: 'linear-gradient(to right, blue, yellow, red)', borderRadius: '15px'}}></div>
           <div style={{ display: 'flex', justifyContent: 'space-between', margin: '5px auto' }}>
             <h5>En colère</h5>
             <h5>Neutre</h5>

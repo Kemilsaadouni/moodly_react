@@ -20,8 +20,9 @@ const LogoutButton = () => {
       style={{
         border: 'none',
         cursor: 'pointer',
-        width: '8%',
-        padding: '1%',
+        width: '50px',  // Taille fixe pour éviter que la div affecte la taille du bouton
+        height: '50px',
+        padding: '5px',  // Ajouter du padding si nécessaire
         backgroundColor: isHovered ? '#000' : 'transparent',
         transition: 'background-color 0.3s ease, transform 0.3s ease',
         borderRadius: '5px',
@@ -31,8 +32,8 @@ const LogoutButton = () => {
         src={isHovered ? logoutHover : logout}
         alt="Déconnexion"
         style={{
-          width: '100%',
-          transition: 'transform 0.3s ease',
+          width: '100%',  // Taille de l'image fixée à 100% du bouton
+          height: '100%',
         }}
       />
     </button>
