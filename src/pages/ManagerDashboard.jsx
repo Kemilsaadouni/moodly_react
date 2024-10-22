@@ -85,12 +85,12 @@ const ManagerDashboard = () => {
 
   return (
     <div style={styles.container}>
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 20px' }}>
-        <h1>Manager</h1>
+      <div style={styles.header}>
+        <h1 style={styles.title}>Manager</h1>
         <LogoutButton />
       </div>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <MoodGraph dailyAverages={dailyAverages} /> {/* Graphique séparé */}
+      {error && <p style={styles.error}>{error}</p>}
+      <MoodGraph dailyAverages={dailyAverages} />
     </div>
   );
 };
@@ -103,9 +103,24 @@ const styles = {
     height: '100vh',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'flex-start', // Ajusté pour ne pas centrer verticalement
     alignItems: 'center',
-  }
+    backgroundColor: '#E7EDED',
+  },
+  header: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '10px 20px', // Ajusté pour le mobile
+  },
+  title: {
+    fontSize: '1.5rem', // Taille de police réactive
+  },
+  error: {
+    color: 'red',
+    marginTop: '10px',
+  },
 };
 
 export default ManagerDashboard;

@@ -142,7 +142,7 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'relative'
+    position: 'relative',
   },
   logoutContainer: {
     width: '10%',
@@ -174,6 +174,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-around',
     marginBottom: '20px',
+    flexWrap: 'wrap', // Permet de rendre les images adaptables sur mobile
   },
   moodImage: {
     width: '50px',
