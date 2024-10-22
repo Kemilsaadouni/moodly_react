@@ -62,6 +62,8 @@ const LoginPage = () => {
       display: 'flex',
       flexDirection: 'column',
       gap: '1rem',
+      width: '100%', // S'assurer que le formulaire s'étende à 100%
+      maxWidth: '400px', // Limiter la largeur max pour une meilleure adaptation
     },
     inputGroup: {
       width: '100%',

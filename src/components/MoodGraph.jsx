@@ -12,7 +12,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
-// Enregistrer les composants dans Chart.js, y compris le plugin Filler
+// Enregistrer les composants dans Chart.js
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -64,7 +64,7 @@ const MoodGraph = ({ dailyAverages }) => {
       x: {
         ticks: {
           font: {
-            size: window.innerWidth < 768 ? 10 : 12,
+            size: window.innerWidth < 768 ? 10 : 12, // Taille de police ajustée pour mobile
           },
         },
       },
@@ -73,7 +73,6 @@ const MoodGraph = ({ dailyAverages }) => {
         min: 1.0,
         max: 5.0,
       },
-      marginBottom:'200px'
     },
     plugins: {
       legend: {
@@ -83,13 +82,13 @@ const MoodGraph = ({ dailyAverages }) => {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding: '10px'}}>
-      <div style={{ width: '90%', maxWidth: '900px', height: window.innerWidth < 768 ? '350px' : '450px', padding: '30px', backgroundColor: '#fff', borderRadius: '15px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'}}>
-        <h3 style={{ marginBottom: '10px' }}>Moyenne du moral des employés lors des 7 derniers jours</h3>
+    <div style={styles.container}>
+      <div style={styles.graphBox}>
+        <h3 style={styles.title}>Moyenne du moral des employés lors des 7 derniers jours</h3>
         <Line ref={chartRef} data={data} options={options} />
-        <div style={{backgroundColor: '#fff', borderRadius: '15px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', padding:20}}>
-          <div style={{ display: 'inline-block', width: '100%', height: '10px', background: 'linear-gradient(to right, blue, yellow, red)', borderRadius: '15px'}}></div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', margin: '5px auto' }}>
+        <div style={styles.legendContainer}>
+          <div style={styles.gradientBar}></div>
+          <div style={styles.legendLabels}>
             <h5>En colère</h5>
             <h5>Neutre</h5>
             <h5>Très heureux</h5>
@@ -98,6 +97,47 @@ const MoodGraph = ({ dailyAverages }) => {
       </div>
     </div>
   );
+};
+
+// Styles intégrés pour la réactivité
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    padding: '10px',
+  },
+  graphBox: {
+    width: '90%', // Utilisation de 90% pour une meilleure adaptation
+    maxWidth: '900px',
+    height: window.innerWidth < 768 ? '350px' : '450px',
+    padding: '30px',
+    backgroundColor: '#fff',
+    borderRadius: '15px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+  },
+  title: {
+    marginBottom: '10px',
+  },
+  legendContainer: {
+    backgroundColor: '#fff',
+    borderRadius: '15px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    padding: 20,
+  },
+  gradientBar: {
+    display: 'inline-block',
+    width: '100%',
+    height: '10px',
+    background: 'linear-gradient(to right, blue, yellow, red)',
+    borderRadius: '15px',
+  },
+  legendLabels: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    margin: '5px auto',
+  },
 };
 
 export default MoodGraph;
