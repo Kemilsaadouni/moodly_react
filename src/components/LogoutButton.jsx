@@ -32,8 +32,8 @@ const LogoutButton = () => {
         src={isHovered ? logoutHover : logout}
         alt="Déconnexion"
         style={{
-          width: '100%',  // Taille de l'image fixée à 100% du bouton
-          height: '100%',
+          width: '70%',  // Taille de l'image fixée à 100% du bouton
+          height: '70%',
         }}
       />
     </button>
