@@ -1,6 +1,6 @@
 # Moodly React
 
-Moodly est une application de gestion de l'humeur pour les employés, permettant aux utilisateurs de partager leurs humeurs quotidiennes et aux managers de suivre les tendances de l'humeur au sein de l'équipe. Ce projet est construit avec React et utilise Capacitor pour l'intégration mobile.
+Moodly est une application de gestion de l'humeur pour les employés, permettant aux utilisateurs de partager leurs humeurs quotidiennes et aux managers de suivre les tendances de l'humeur au sein de l'équipe. Ce projet est construit avec Vite(React), utilise Capacitor pour l'intégration mobile et l'API de STRAPI pour gérer le back-end.
 
 ## Table des matières
 
